@@ -1,0 +1,61 @@
+[tool.poetry]
+name = "beerbox"
+version = "0.1.0"
+description = "beerbox backend"
+authors = ["Thibault DEFEYTER <defeyter.thibault@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+alembic = "1.8.1"
+fastapi = "0.85.1"
+gunicorn = "^20.1.0"
+psycopg2-binary  = "2.9.4"
+sqlalchemy = "1.4.42"
+uvicorn = {version = "0.19.0", extras = ["standard"]}
+
+[tool.poetry.group.dev.dependencies]
+bandit = "^1.7.4"
+black = "^22.10.0"
+factory-boy = "^3.2.1"
+faker = "^15.1.1"
+flake8 = "^5.0.4"
+flake8-pyproject = "^1.1.0.post0"
+ipython = "^8.5.0"
+isort = "^5.10.1"
+mypy = "^0.982"
+pre-commit = "^2.20.0"
+pytest = "^7.1.3"
+pytest-cov = "^4.0.0"
+pytest-asyncio = "^0.20.1"
+requests = "^2.28.1"
+schemathesis = "^3.17.4"
+sqlalchemy2-stubs = "^0.0.2a29"
+types-factory-boy = "^0.3.0"
+types-psycopg2 = "^2.9.21.1"
+types-requests = "^2.28.11.2"
+
+[tool.black]
+line-length = 99
+
+[tool.isort]
+line_length = 99
+force_single_line = true
+
+[tool.flake8]
+max-line-length = 99
+
+[tool.mypy]
+mypy_path = "$MYPY_CONFIG_FILE_DIR/src"
+plugins = "sqlalchemy.ext.mypy.plugin"
+
+[tool.coverage.report]
+exclude_lines = [
+    "def __repr__",
+    "raise NotImplementedError",
+    "class .*\\bProtocol\\):"
+]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
