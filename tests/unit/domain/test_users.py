@@ -7,25 +7,11 @@ unit testing of beerbox users domain
 """
 
 
-from datetime import datetime
-
 import pytest
 
 from beerbox.domain.users import InMemoryUserRepository
-from beerbox.domain.users import User
 from beerbox.domain.users import UserAlreadyExist
 from beerbox.domain.users import UserDoesNotExist
-
-
-@pytest.fixture(name="user", scope="session")
-def fixture_user():
-    """expose a host fixture"""
-    return User(
-        created_at=datetime(2020, 1, 1),
-        modified_at=datetime(2020, 1, 1),
-        public_id="id",
-        username="user",
-    )
 
 
 def test_repository_add_user(user):

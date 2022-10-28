@@ -17,6 +17,7 @@ from starlette.requests import Request
 
 from beerbox.application.api.components.error_response import ErrorResponse
 from beerbox.application.api.response import APIResponse
+from beerbox.domain.users import UserAlreadyExist
 from beerbox.utils.strings import Case
 from beerbox.utils.strings import convert_case
 
@@ -35,6 +36,11 @@ def _(_: RequestValidationError) -> int:
 @get_status_code_from.register
 def _(exception: HTTPException) -> int:
     return exception.status_code
+
+
+@get_status_code_from.register
+def _(_: UserAlreadyExist) -> int:
+    return status.HTTP_409_CONFLICT
 
 
 @singledispatch
@@ -61,6 +67,11 @@ def _(_: RequestValidationError) -> str:
     return "validation-error"
 
 
+@get_error_code_from.register
+def _(_: UserAlreadyExist) -> str:
+    return "user-conflict"
+
+
 @singledispatch
 def get_error_message_from(_) -> str:
     """get an error message from an exception and a request"""
@@ -82,6 +93,11 @@ def _(exception: SQLAlchemyError) -> str:
 @get_error_message_from.register
 def _(_: RequestValidationError) -> str:
     return "error validating input data"
+
+
+@get_error_message_from.register
+def _(_: UserAlreadyExist) -> str:
+    return "a user with the same username already exist"
 
 
 @singledispatch

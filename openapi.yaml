@@ -7,7 +7,29 @@ servers:
     description: "beerbox"
 components:
   schemas:
-    CheckComponent:
+    UserRequest:
+      type: "object"
+      required:
+        - "username"
+      properties:
+        username:
+          type: "string"
+    UserResponse:
+      type: "object"
+      required:
+        - "username"
+        - "createdAt"
+        - "modifiedAt"
+      properties:
+        username:
+          type: "string"
+        createdAt:
+          type: "string"
+          format: "date-time"
+        modifiedAt:
+          type: "string"
+          format: "date-time"
+    Check:
       type: "object"
       required:
         - "name"
@@ -46,7 +68,7 @@ components:
         checks:
           type: "array"
           items:
-            $ref: "#/components/schemas/CheckComponent"
+            $ref: "#/components/schemas/Check"
         version:
           type: "string"
         service:
@@ -59,11 +81,57 @@ components:
         message:
           type: "string"
         data:
-          type: "object"
+          type:
+            - "object"
+            - "array"
       required:
         - "code"
         - "message"
 paths:
+  /users:
+    get:
+      summary: "get users"
+      tags:
+        - "users"
+      description: "Get the list of active users"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/UserResponse"
+    post:
+      summary: "create user"
+      tags:
+        - "users"
+      description: "Create a new user"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserRequest"
+      responses:
+        "201":
+          description: "CREATED"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        "422":
+          description: "Unprocessable Entity"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: "Conflict"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
   /livez:
     get:
       summary: "get liveness probe"

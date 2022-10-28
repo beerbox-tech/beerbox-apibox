@@ -5,26 +5,12 @@ licene: MIT
 
 unit testing of beerbox contributions domain
 """
-from datetime import datetime
 
 import pytest
 
-from beerbox.domain.contributions import Contribution
 from beerbox.domain.contributions import ContributionAlreadyExist
 from beerbox.domain.contributions import ContributionDoesNotExist
 from beerbox.domain.contributions import InMemoryContributionRepository
-
-
-@pytest.fixture(name="contribution", scope="session")
-def fixture_contribution():
-    """expose a host fixture"""
-    return Contribution(
-        amount=10,
-        created_at=datetime(2020, 1, 1),
-        modified_at=datetime(2020, 1, 1),
-        public_id="id",
-        username="user",
-    )
 
 
 def test_repository_add_contribution(contribution):

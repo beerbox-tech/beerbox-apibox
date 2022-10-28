@@ -11,6 +11,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Protocol
+from typing import runtime_checkable
 
 
 @dataclass
@@ -43,6 +44,7 @@ class UserAlreadyExist(Exception):
         return f"UserAlreadyExist(username='{self.username}')"
 
 
+@runtime_checkable
 class UserRepository(Protocol):
     """protocol to be implemented by user concrete repositories"""
 

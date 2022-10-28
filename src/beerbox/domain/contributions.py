@@ -11,6 +11,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Protocol
+from typing import runtime_checkable
 
 
 @dataclass
@@ -44,6 +45,7 @@ class ContributionAlreadyExist(Exception):
         return f"ContributionAlreadyExist(public_id='{self.public_id}')"
 
 
+@runtime_checkable
 class ContributionRepository(Protocol):
     """protocol to be implemented by contribution concrete repositories"""
 
