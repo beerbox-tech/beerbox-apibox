@@ -14,6 +14,7 @@ from starlette.exceptions import HTTPException
 
 from beerbox.application.api.exception_handlers import exception_handler
 from beerbox.application.api.resources import health
+from beerbox.application.api.resources import users
 
 
 def create_app() -> FastAPI:
@@ -21,9 +22,11 @@ def create_app() -> FastAPI:
     app = FastAPI(openapi_url="")
 
     # routers to expose endpoints
-    app.include_router(health.router)
+    for resource in (health, users):
+        app.include_router(resource.router)
 
     # exception handlers to manage errors
+    # custom exception are handled by the generic exception handler
     for exception in (SQLAlchemyError, HTTPException, Exception, RequestValidationError):
         app.add_exception_handler(exception, exception_handler)
 

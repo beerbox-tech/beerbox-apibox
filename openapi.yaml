@@ -4,6 +4,31 @@ info:
   version: "0.1"
 components:
   schemas:
+    UserRequest:
+      type: "object"
+      required:
+        - "username"
+      properties:
+        username:
+          type: "string"
+    UserResponse:
+      type: "object"
+      required:
+        - "createdAt"
+        - "modifiedAt"
+        - "publicId"
+        - "username"
+      properties:
+        createdAt:
+          type: "string"
+          format: "date-time"
+        modifiedAt:
+          type: "string"
+          format: "date-time"
+        publicID:
+          type: "string"
+        username:
+          type: "string"
     HealthCheck:
       type: "object"
       required:
@@ -63,6 +88,76 @@ components:
             - type: "object"
             - type: "array"
 paths:
+  /users:
+    get:
+      summary: "get users"
+      tags:
+        - "users"
+      description: "Get the list of users"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/UserResponse"
+    post:
+      summary: "create user"
+      tags:
+        - "users"
+      description: "Create a new user"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserRequest"
+      responses:
+        "201":
+          description: "CREATED"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        "422":
+          description: "Unprocessable Entity"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: "Conflict"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /users/{publicId}:
+    get:
+      summary: "get single user"
+      tags:
+        - "users"
+      description: "Get a single user"
+      parameters:
+        - in: "path"
+          name: "publicId"
+          required: true
+          schema:
+            type: "string"
+          description: "public id of the user to get"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        "404":
+          description: "Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
   /livez:
     get:
       summary: "get liveness probe"

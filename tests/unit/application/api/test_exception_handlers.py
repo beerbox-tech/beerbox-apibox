@@ -19,6 +19,8 @@ from sqlalchemy.exc import OperationalError
 from starlette.exceptions import HTTPException
 
 from beerbox.application.api.exception_handlers import exception_handler
+from beerbox.domain.users import UserAlreadyExist
+from beerbox.domain.users import UserDoesNotExist
 
 
 def mock_request(url: str) -> Mock:
@@ -128,6 +130,37 @@ async def test_validation_exception_handler():
         "code": "validation-error",
         "data": [{"field": "body.items[1].field", "message": "something went wrong"}],
         "message": "error validating input data",
+    }
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "exception, status_code, code, message",
+    (
+        (
+            UserDoesNotExist("public-id"),
+            404,
+            "user-not-found",
+            "the requested user does not exist",
+        ),
+        (
+            UserAlreadyExist("username"),
+            409,
+            "user-conflict",
+            "a user with the same username already exist",
+        ),
+    ),
+)
+async def test_custom_exception_handler(exception, status_code, code, message):
+    """test exception_handler for custom errors"""
+    request = mock_request("/test")
+
+    response = await exception_handler(request, exception)
+
+    assert response.status_code == status_code
+    assert json.loads(response.body) == {
+        "code": code,
+        "message": message,
     }
 
 
