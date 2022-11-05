@@ -13,23 +13,19 @@ from beerbox.infrastructure.database.models import User
 from tests.factories import DatabaseUserFactory
 
 
-def test_migrations(config, session):
+def test_migrations(config, clean_session):
     """test migrations up and down"""
-    result = session.execute("select count(*) from alembic_version").scalar()
+    command.upgrade(config=config, revision="head", sql=False, tag=None)
+    result = clean_session.execute("select count(*) from alembic_version").scalar()
     assert result == 1
-    session.rollback()
 
     while True:
         try:
             command.downgrade(config=config, revision="-1", sql=False, tag=None)
         except CommandError:
             break
-    result = session.execute("select count(*) from alembic_version").scalar()
+    result = clean_session.execute("select count(*) from alembic_version").scalar()
     assert result == 0
-
-    command.upgrade(config=config, revision="head", sql=False, tag=None)
-    result = session.execute("select count(*) from alembic_version").scalar()
-    assert result == 1
 
 
 def test_select_users_empty(session):

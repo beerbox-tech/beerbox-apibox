@@ -9,20 +9,21 @@ beerbox api user resources
 from fastapi import APIRouter
 from fastapi import Depends
 from fastapi import status
+from sqlalchemy.orm import Session
 
 from beerbox.application.api.components.user_request import UserRequest
 from beerbox.application.api.components.user_response import UserResponse
 from beerbox.application.api.response import APIResponse
-from beerbox.domain.users import InMemoryUserRepository
 from beerbox.domain.users import UserRepository
+from beerbox.infrastructure.database.repositories.user import DatabaseUserRepository
+from beerbox.infrastructure.database.session import get_session
 
 router = APIRouter()
-_repository = InMemoryUserRepository()
 
 
-def get_user_repository() -> UserRepository:
+def get_user_repository(session: Session = Depends(get_session)) -> UserRepository:
     """return a user repository, to be used as dependency injector"""
-    return _repository
+    return DatabaseUserRepository(session)
 
 
 @router.get("/users")
