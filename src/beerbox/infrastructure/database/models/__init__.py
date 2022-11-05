@@ -7,7 +7,9 @@ beerbox database models
 """
 
 from beerbox.infrastructure.database.models.base import DatabaseModel
+from beerbox.infrastructure.database.models.user import User
 
 __all__ = [
     "DatabaseModel",
+    "User",
 ]

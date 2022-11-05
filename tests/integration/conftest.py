@@ -7,12 +7,16 @@ beerbox integration tests configuration
 """
 
 import pytest
+from alembic import command
 from alembic.config import Config
 from fastapi.testclient import TestClient
+from sqlalchemy.orm import scoped_session
+from sqlalchemy.orm import sessionmaker
 
 from beerbox.infrastructure.database.engine import get_engine
-from beerbox.infrastructure.database.session import open_session
 from beerbox.main import app
+
+session = scoped_session(sessionmaker(bind=get_engine()))
 
 
 @pytest.fixture(name="config", scope="session")
@@ -28,11 +32,11 @@ def fixture_engine():
 
 
 @pytest.fixture(name="session", scope="function")
-def fixture_session(engine):
+def fixture_session(engine, config):
     """expose a database session fixture"""
-    with open_session(engine) as _session:
-        yield _session
-        _session.commit()
+    command.upgrade(config=config, revision="head", sql=False, tag=None)
+    yield session
+    session.remove()
 
 
 @pytest.fixture(name="client", scope="session")
