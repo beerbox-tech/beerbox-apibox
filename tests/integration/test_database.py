@@ -9,7 +9,9 @@ from alembic import command
 from alembic.util.exc import CommandError
 from sqlalchemy import select
 
+from beerbox.infrastructure.database.models import Contribution
 from beerbox.infrastructure.database.models import User
+from tests.factories import DatabaseContributionFactory
 from tests.factories import DatabaseUserFactory
 
 
@@ -39,3 +41,16 @@ def test_select_users_filled(session):
     user = DatabaseUserFactory.create()
     result = session.execute(select(User)).scalar()
     assert result == user
+
+
+def test_select_contributions_empty(session):
+    """test contributions table accessibility"""
+    results = session.execute(select(Contribution)).scalars()
+    assert results.all() == []
+
+
+def test_select_contributions_filled(session):
+    """test contribution factory generated data accessiblity"""
+    contribution = ContributionFactory.create()
+    result = session.execute(select(Contribution)).scalar()
+    assert result == contribution
