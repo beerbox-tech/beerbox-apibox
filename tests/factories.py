@@ -11,6 +11,7 @@ import factory
 
 from beerbox.config import IDENTIFIER_ALPHABET
 from beerbox.config import IDENTIFIER_SIZE
+from beerbox.domain.contributions import Contribution as DomainContribution
 from beerbox.domain.users import User as DomainUser
 from beerbox.infrastructure.database.models import User as DatabaseUser
 from tests.integration.conftest import session
@@ -48,3 +49,25 @@ class DatabaseUserFactory(factory.alchemy.SQLAlchemyModelFactory):
         model = DatabaseUser
         sqlalchemy_session = session
         sqlalchemy_session_persistence = "commit"
+
+
+class DomainContributionFactory(factory.Factory):
+    """domain users factory"""
+
+    public_id = factory.Faker(
+        "lexify",
+        text="?" * IDENTIFIER_SIZE,
+        letters=IDENTIFIER_ALPHABET,
+    )  # type: ignore
+    created_at = factory.Faker("date_time")  # type: ignore
+    modified_at = factory.Faker("date_time")  # type: ignore
+    amount = factory.Faker("pyint")  # type: ignore
+    description = factory.Faker("sentence")  # type: ignore
+    user_id = factory.Faker(
+        "lexify",
+        text="?" * IDENTIFIER_SIZE,
+        letters=IDENTIFIER_ALPHABET,
+    )  # type: ignore
+
+    class Meta:
+        model = DomainContribution
