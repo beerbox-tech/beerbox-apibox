@@ -51,6 +51,6 @@ def test_select_contributions_empty(session):
 
 def test_select_contributions_filled(session):
     """test contribution factory generated data accessiblity"""
-    contribution = ContributionFactory.create()
+    contribution = DatabaseContributionFactory.create()
     result = session.execute(select(Contribution)).scalar()
     assert result == contribution
