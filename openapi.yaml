@@ -29,6 +29,43 @@ components:
           type: "string"
         username:
           type: "string"
+    ContributionRequest:
+      type: "object"
+      required:
+        - "amount"
+        - "description"
+        - "userId"
+      properties:
+        amount:
+          type: "integer"
+        description:
+          type: "string"
+        userId:
+          type: "string"
+    ContributionResponse:
+      type: "object"
+      required:
+        - "amount"
+        - "createdAt"
+        - "description"
+        - "modifiedAt"
+        - "publicId"
+        - "userId"
+      properties:
+        amount:
+          type: "integer"
+        createdAt:
+          type: "string"
+          format: "date-time"
+        description:
+          type: "string"
+        modifiedAt:
+          type: "string"
+          format: "date-time"
+        publicId:
+          type: "string"
+        userId:
+          type: "string"
     HealthCheck:
       type: "object"
       required:
@@ -152,6 +189,70 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UserResponse"
+        "404":
+          description: "Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /contributions:
+    get:
+      summary: "get contributions"
+      tags:
+        - "contributions"
+      description: "Get the list of contributions"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/ContributionResponse"
+    post:
+      summary: "create contribution"
+      tags:
+        - "contributions"
+      description: "Create a new contribution"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContributionRequest"
+      responses:
+        "201":
+          description: "Created"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContributionResponse"
+        "422":
+          description: "Unprocessable Entity"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /contributions/{publicId}:
+    get:
+      summary: "get single contribution"
+      tags:
+        - "contributions"
+      description: "Get a single contribution"
+      parameters:
+        - in: "path"
+          name: "publicId"
+          required: true
+          schema:
+            type: "string"
+          description: "public id of the contribution to get"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContributionResponse"
         "404":
           description: "Not Found"
           content:
