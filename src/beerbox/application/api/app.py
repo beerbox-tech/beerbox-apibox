@@ -13,6 +13,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from starlette.exceptions import HTTPException
 
 from beerbox.application.api.exception_handlers import exception_handler
+from beerbox.application.api.resources import contributions
 from beerbox.application.api.resources import health
 from beerbox.application.api.resources import users
 
@@ -22,7 +23,7 @@ def create_app() -> FastAPI:
     app = FastAPI(openapi_url="")
 
     # routers to expose endpoints
-    for resource in (health, users):
+    for resource in (health, users, contributions):
         app.include_router(resource.router)
 
     # exception handlers to manage errors

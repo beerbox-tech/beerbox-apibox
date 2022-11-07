@@ -17,6 +17,8 @@ from starlette.requests import Request
 
 from beerbox.application.api.components.error_response import ErrorResponse
 from beerbox.application.api.response import APIResponse
+from beerbox.domain.contributions import ContributionDoesNotExist
+from beerbox.domain.contributions import ContributionUserDoesNotExist
 from beerbox.domain.users import UserAlreadyExist
 from beerbox.domain.users import UserDoesNotExist
 from beerbox.utils.strings import Case
@@ -47,6 +49,16 @@ def _(_: UserAlreadyExist) -> int:
 @get_status_code_from.register
 def _(_: UserDoesNotExist) -> int:
     return status.HTTP_404_NOT_FOUND
+
+
+@get_status_code_from.register
+def _(_: ContributionDoesNotExist) -> int:
+    return status.HTTP_404_NOT_FOUND
+
+
+@get_status_code_from.register
+def _(_: ContributionUserDoesNotExist) -> int:
+    return status.HTTP_422_UNPROCESSABLE_ENTITY
 
 
 @singledispatch
@@ -83,6 +95,16 @@ def _(_: UserDoesNotExist) -> str:
     return "user-not-found"
 
 
+@get_error_code_from.register
+def _(_: ContributionDoesNotExist) -> str:
+    return "contribution-not-found"
+
+
+@get_error_code_from.register
+def _(_: ContributionUserDoesNotExist) -> str:
+    return "validation-error"
+
+
 @singledispatch
 def get_error_message_from(_) -> str:
     """get an error message from an exception and a request"""
@@ -116,6 +138,16 @@ def _(_: UserDoesNotExist) -> str:
     return "the requested user does not exist"
 
 
+@get_error_message_from.register
+def _(_: ContributionDoesNotExist) -> str:
+    return "the requested contribution does not exist"
+
+
+@get_error_message_from.register
+def _(_: ContributionUserDoesNotExist) -> str:
+    return "error creating contribution"
+
+
 @singledispatch
 def get_error_data_from(_) -> dict | list[dict] | None:
     """get an error data from an exception"""
@@ -136,6 +168,11 @@ def _(exception: RequestValidationError) -> list[dict] | None:
         {"field": _get_field_from(error["loc"]), "message": error["msg"]}
         for error in exception.errors()
     ]
+
+
+@get_error_data_from.register
+def _(exception: ContributionUserDoesNotExist) -> list[dict] | None:
+    return [{"field": "body.userId", "message": "requested user does not exist"}]
 
 
 def _get_field_from(loc: Any) -> str:

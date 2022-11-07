@@ -19,6 +19,8 @@ from sqlalchemy.exc import OperationalError
 from starlette.exceptions import HTTPException
 
 from beerbox.application.api.exception_handlers import exception_handler
+from beerbox.domain.contributions import ContributionDoesNotExist
+from beerbox.domain.contributions import ContributionUserDoesNotExist
 from beerbox.domain.users import UserAlreadyExist
 from beerbox.domain.users import UserDoesNotExist
 
@@ -135,33 +137,49 @@ async def test_validation_exception_handler():
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
-    "exception, status_code, code, message",
+    "exception, status_code, code, message, data",
     (
         (
             UserDoesNotExist("public-id"),
             404,
             "user-not-found",
             "the requested user does not exist",
+            None,
         ),
         (
             UserAlreadyExist("username"),
             409,
             "user-conflict",
             "a user with the same username already exist",
+            None,
+        ),
+        (
+            ContributionDoesNotExist("public-id"),
+            404,
+            "contribution-not-found",
+            "the requested contribution does not exist",
+            None,
+        ),
+        (
+            ContributionUserDoesNotExist("public-id"),
+            422,
+            "validation-error",
+            "error creating contribution",
+            [{"field": "body.userId", "message": "requested user does not exist"}],
         ),
     ),
 )
-async def test_custom_exception_handler(exception, status_code, code, message):
+async def test_custom_exception_handler(exception, status_code, code, message, data):
     """test exception_handler for custom errors"""
     request = mock_request("/test")
 
     response = await exception_handler(request, exception)
 
     assert response.status_code == status_code
-    assert json.loads(response.body) == {
-        "code": code,
-        "message": message,
-    }
+    if data:
+        assert json.loads(response.body) == {"code": code, "message": message, "data": data}
+    else:
+        assert json.loads(response.body) == {"code": code, "message": message}
 
 
 @pytest.mark.asyncio
