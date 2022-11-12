@@ -4,10 +4,10 @@ from alembic import context
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
-import beerbox
-import beerbox.config
-import beerbox.infrastructure.database.models
-from beerbox.infrastructure.database.models import DatabaseModel
+import apibox
+import apibox.config
+import apibox.infrastructure.database.models
+from apibox.infrastructure.database.models import DatabaseModel
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -22,7 +22,7 @@ fileConfig(config.config_file_name)
 target_metadata = DatabaseModel.metadata
 
 # other values from the config, defined by the needs of env.py,
-config.set_main_option("sqlalchemy.url", beerbox.config.POSTGRES_URL)
+config.set_main_option("sqlalchemy.url", apibox.config.POSTGRES_URL)
 
 
 def run_migrations_offline():

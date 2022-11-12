@@ -3,7 +3,7 @@ created by: thibault defeyter
 created at: 2022/10/21
 license: MIT
 
-beerbox test utilities
+apibox test utilities
 """
 
 import re

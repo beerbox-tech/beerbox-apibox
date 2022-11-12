@@ -3,7 +3,7 @@ created by: thibault defeyter
 created at: 2022/10/21
 license: MIT
 
-testing beerbox health resources behaviour
+testing apibox health resources behaviour
 """
 
 import requests
@@ -22,14 +22,14 @@ def test_livez(host, port):
     assert response.json() == {
         "checks": [
             {
-                "name": "beerbox-backend:ready",
+                "name": "apibox:ready",
                 "observedUnit": "boolean",
                 "observedValue": "true",
                 "status": "pass",
                 "time": AnyDatetimeString(),
             },
         ],
-        "service": "beerbox-backend",
+        "service": "apibox",
         "status": "pass",
         "version": AnyInstanceOf(str),
     }
@@ -45,7 +45,7 @@ def test_readyz(host, port):
     assert response.json() == {
         "checks": [
             {
-                "name": "beerbox-backend:ready",
+                "name": "apibox:ready",
                 "observedUnit": "boolean",
                 "observedValue": "true",
                 "status": "pass",
@@ -59,7 +59,7 @@ def test_readyz(host, port):
                 "time": AnyDatetimeString(),
             },
         ],
-        "service": "beerbox-backend",
+        "service": "apibox",
         "status": "pass",
         "version": AnyInstanceOf(str),
     }

@@ -17,13 +17,13 @@ RUN poetry build && poetry install
 ## STAGE: RUNNER
 FROM python:3.10-slim AS runner
 
-RUN groupadd -r --gid 1000 beerbox && \
-    useradd -r --uid 1000 --gid 1000 beerbox
+RUN groupadd -r --gid 1000 apibox && \
+    useradd -r --uid 1000 --gid 1000 apibox
 
 COPY --from=builder /build/dist/ /tmp/
 COPY --from=builder /build/migrations/ /migrations/
 RUN pip install --no-cache-dir /tmp/*.whl && \
     rm -rf /tmp/*
 
-USER beerbox
-CMD gunicorn --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 beerbox.main:app
+USER apibox
+CMD gunicorn --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 apibox.main:app

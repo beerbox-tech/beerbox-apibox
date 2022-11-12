@@ -3,14 +3,14 @@ created by: thibault defeyter
 created at: 2022/11/01
 licene: MIT
 
-unit testing of beerbox contributions domain
+unit testing of apibox contributions domain
 """
 
 import pytest
 
-from beerbox.domain.contributions import ContributionDoesNotExist
-from beerbox.domain.contributions import ContributionUserDoesNotExist
-from beerbox.domain.contributions import InMemoryContributionRepository
+from apibox.domain.contributions import ContributionDoesNotExist
+from apibox.domain.contributions import ContributionUserDoesNotExist
+from apibox.domain.contributions import InMemoryContributionRepository
 from tests.factories import DomainContributionFactory
 from tests.factories import DomainUserFactory
 

@@ -3,15 +3,15 @@ created by: thibault defeyter
 created at: 2022/10/30
 licene: MIT
 
-unit testing of beerbox users domain
+unit testing of apibox users domain
 """
 
 
 import pytest
 
-from beerbox.domain.users import InMemoryUserRepository
-from beerbox.domain.users import UserAlreadyExist
-from beerbox.domain.users import UserDoesNotExist
+from apibox.domain.users import InMemoryUserRepository
+from apibox.domain.users import UserAlreadyExist
+from apibox.domain.users import UserDoesNotExist
 from tests.factories import DomainUserFactory
 
 

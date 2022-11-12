@@ -3,7 +3,7 @@ created by: thibault defeyter
 created at: 2022/10/21
 license: MIT
 
-unit testing beerbox database
+unit testing apibox database
 """
 
 from datetime import datetime
@@ -20,19 +20,19 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.future.engine import Engine
 from sqlalchemy.orm import Session
 
-from beerbox.application.health import Check
-from beerbox.application.health import Status
-from beerbox.domain.contributions import ContributionDoesNotExist
-from beerbox.domain.contributions import ContributionUserDoesNotExist
-from beerbox.domain.users import UserAlreadyExist
-from beerbox.domain.users import UserDoesNotExist
-from beerbox.infrastructure.database.engine import get_engine
-from beerbox.infrastructure.database.health import DatabaseReadiness
-from beerbox.infrastructure.database.models import DatabaseModel
-from beerbox.infrastructure.database.repositories import DatabaseContributionRepository
-from beerbox.infrastructure.database.repositories.user import DatabaseUserRepository
-from beerbox.infrastructure.database.session import get_session
-from beerbox.infrastructure.database.session import open_session
+from apibox.application.health import Check
+from apibox.application.health import Status
+from apibox.domain.contributions import ContributionDoesNotExist
+from apibox.domain.contributions import ContributionUserDoesNotExist
+from apibox.domain.users import UserAlreadyExist
+from apibox.domain.users import UserDoesNotExist
+from apibox.infrastructure.database.engine import get_engine
+from apibox.infrastructure.database.health import DatabaseReadiness
+from apibox.infrastructure.database.models import DatabaseModel
+from apibox.infrastructure.database.repositories import DatabaseContributionRepository
+from apibox.infrastructure.database.repositories.user import DatabaseUserRepository
+from apibox.infrastructure.database.session import get_session
+from apibox.infrastructure.database.session import open_session
 from tests.factories import DatabaseContributionFactory
 from tests.factories import DatabaseUserFactory
 from tests.factories import DomainContributionFactory
@@ -113,7 +113,7 @@ def test_database_readiness__available():
     )
 
 
-@patch("beerbox.infrastructure.database.health.datetime", new=mock_datetime(now=NOW))
+@patch("apibox.infrastructure.database.health.datetime", new=mock_datetime(now=NOW))
 def test_database_readiness__unavailable():
     """test database readiness indicator without available database"""
     mocked_session = mock_session(scalar=OperationalError(statement=None, params=None, orig=None))

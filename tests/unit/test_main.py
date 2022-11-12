@@ -3,14 +3,14 @@ created by: thibault defeyter
 created at: 2022/10/21
 licene: MIT
 
-unit testing beerbox applications' entrypoint
+unit testing apibox applications' entrypoint
 """
 
 from fastapi import FastAPI
 from sqlalchemy.exc import SQLAlchemyError
 from starlette.exceptions import HTTPException
 
-from beerbox.main import app
+from apibox.main import app
 
 
 def test_app():

@@ -3,7 +3,7 @@ created by: thibault defeyter
 created at: 2022/11/07
 license: MIT
 
-unit testing beerbox contributions resources
+unit testing apibox contributions resources
 """
 
 import json
@@ -11,13 +11,13 @@ from unittest.mock import Mock
 
 import pytest
 
-from beerbox.application.api.components.contribution_request import ContributionRequest
-from beerbox.application.api.resources.contributions import get_contribution
-from beerbox.application.api.resources.contributions import get_contribution_repository
-from beerbox.application.api.resources.contributions import get_contributions
-from beerbox.application.api.resources.contributions import post_contributions
-from beerbox.domain.contributions import Contribution
-from beerbox.domain.contributions import ContributionRepository
+from apibox.application.api.components.contribution_request import ContributionRequest
+from apibox.application.api.resources.contributions import get_contribution
+from apibox.application.api.resources.contributions import get_contribution_repository
+from apibox.application.api.resources.contributions import get_contributions
+from apibox.application.api.resources.contributions import post_contributions
+from apibox.domain.contributions import Contribution
+from apibox.domain.contributions import ContributionRepository
 from tests.factories import DomainContributionFactory
 from tests.utils import AnyDatetimeString
 from tests.utils import AnyInstanceOf

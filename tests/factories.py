@@ -3,18 +3,18 @@ created by: thibault defeyter
 created at: 2022/10/30
 license: MIT
 
-beerbox data factories
+apibox data factories
 """
 
 
 import factory
 
-from beerbox.config import IDENTIFIER_ALPHABET
-from beerbox.config import IDENTIFIER_SIZE
-from beerbox.domain.contributions import Contribution as DomainContribution
-from beerbox.domain.users import User as DomainUser
-from beerbox.infrastructure.database.models import Contribution as DatabaseContribution
-from beerbox.infrastructure.database.models import User as DatabaseUser
+from apibox.config import IDENTIFIER_ALPHABET
+from apibox.config import IDENTIFIER_SIZE
+from apibox.domain.contributions import Contribution as DomainContribution
+from apibox.domain.users import User as DomainUser
+from apibox.infrastructure.database.models import Contribution as DatabaseContribution
+from apibox.infrastructure.database.models import User as DatabaseUser
 from tests.integration.conftest import session
 
 

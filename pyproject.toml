@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "beerbox"
+name = "apibox"
 version = "0.1.0"
-description = "beerbox backend"
+description = "beerbox api backend"
 authors = ["Thibault DEFEYTER <defeyter.thibault@gmail.com>"]
 license = "MIT"
 
