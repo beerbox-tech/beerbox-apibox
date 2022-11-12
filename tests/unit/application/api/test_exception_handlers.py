@@ -3,7 +3,7 @@ created by: thibault defeyter
 created at: 2022/10/21
 license: MIT
 
-unit testing beerbox api exception handlers
+unit testing apibox api exception handlers
 """
 
 import json
@@ -18,11 +18,11 @@ from pydantic.error_wrappers import ErrorWrapper
 from sqlalchemy.exc import OperationalError
 from starlette.exceptions import HTTPException
 
-from beerbox.application.api.exception_handlers import exception_handler
-from beerbox.domain.contributions import ContributionDoesNotExist
-from beerbox.domain.contributions import ContributionUserDoesNotExist
-from beerbox.domain.users import UserAlreadyExist
-from beerbox.domain.users import UserDoesNotExist
+from apibox.application.api.exception_handlers import exception_handler
+from apibox.domain.contributions import ContributionDoesNotExist
+from apibox.domain.contributions import ContributionUserDoesNotExist
+from apibox.domain.users import UserAlreadyExist
+from apibox.domain.users import UserDoesNotExist
 
 
 def mock_request(url: str) -> Mock:

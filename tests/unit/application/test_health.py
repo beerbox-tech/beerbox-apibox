@@ -3,7 +3,7 @@ created by: thibault defeyter
 created at: 2022/10/21
 license: MIT
 
-unit testing beerbox health indicators
+unit testing apibox health indicators
 """
 
 from datetime import datetime
@@ -11,9 +11,9 @@ from datetime import timezone
 from unittest.mock import Mock
 from unittest.mock import patch
 
-from beerbox.application.health import ApplicationReadiness
-from beerbox.application.health import Check
-from beerbox.application.health import Status
+from apibox.application.health import ApplicationReadiness
+from apibox.application.health import Check
+from apibox.application.health import Status
 
 NOW = datetime(2020, 1, 1, tzinfo=timezone.utc)
 
@@ -33,11 +33,11 @@ def test_status_all():
     assert Status.all([Status.FAIL, Status.FAIL]) == Status.FAIL
 
 
-@patch("beerbox.application.health.datetime", new=mock_datetime(now=NOW))
+@patch("apibox.application.health.datetime", new=mock_datetime(now=NOW))
 def test_application_readiness():
     """test application readiness health indicator"""
     assert ApplicationReadiness().get_check() == Check(
-        name="beerbox-backend:ready",
+        name="apibox:ready",
         time=NOW,
         status=Status.PASS,
         observed_value="true",

@@ -3,7 +3,7 @@ created by: thibault defeyter
 created at: 2022/10/21
 license: MIT
 
-unit testing beerbox utilities
+unit testing apibox utilities
 """
 
 import re
@@ -11,13 +11,13 @@ from typing import Any
 
 import pytest
 
-from beerbox.utils.identifiers import generate_identifier
-from beerbox.utils.strings import Case
-from beerbox.utils.strings import CaseConverter
-from beerbox.utils.strings import CaseEnforcer
-from beerbox.utils.strings import CaseValidator
-from beerbox.utils.strings import convert_case
-from beerbox.utils.strings import force_case
+from apibox.utils.identifiers import generate_identifier
+from apibox.utils.strings import Case
+from apibox.utils.strings import CaseConverter
+from apibox.utils.strings import CaseEnforcer
+from apibox.utils.strings import CaseValidator
+from apibox.utils.strings import convert_case
+from apibox.utils.strings import force_case
 
 
 def test_generate_identifier__format():

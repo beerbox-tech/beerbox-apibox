@@ -3,7 +3,7 @@ created by: thibault defeyter
 created at: 2022/10/21
 license: MIT
 
-beerbox integration tests configuration
+apibox integration tests configuration
 """
 
 import pytest
@@ -12,9 +12,9 @@ from fastapi.testclient import TestClient
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
 
-from beerbox.infrastructure.database.engine import get_engine
-from beerbox.infrastructure.database.models import DatabaseModel
-from beerbox.main import app
+from apibox.infrastructure.database.engine import get_engine
+from apibox.infrastructure.database.models import DatabaseModel
+from apibox.main import app
 
 session = scoped_session(sessionmaker(bind=get_engine()))
 

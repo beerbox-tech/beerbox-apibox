@@ -3,7 +3,7 @@ created by: thibault defeyter
 created at: 2022/10/30
 license: MIT
 
-testing beerbox users resources behaviour
+testing apibox users resources behaviour
 """
 
 

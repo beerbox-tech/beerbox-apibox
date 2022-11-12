@@ -3,11 +3,11 @@ created by: thibault defeyter
 created at: 2022/10/21
 license: MIT
 
-unit testing beerbox api response
+unit testing apibox api response
 """
 
-from beerbox.application.api.components.base import APIComponent
-from beerbox.application.api.response import APIResponse
+from apibox.application.api.components.base import APIComponent
+from apibox.application.api.response import APIResponse
 
 
 class Dummy(APIComponent):

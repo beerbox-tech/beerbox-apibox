@@ -3,7 +3,7 @@ created by: thibault defeyter
 created at: 2022/10/30
 license: MIT
 
-unit testing beerbox user resources
+unit testing apibox user resources
 """
 
 import json
@@ -11,13 +11,13 @@ from unittest.mock import Mock
 
 import pytest
 
-from beerbox.application.api.components.user_request import UserRequest
-from beerbox.application.api.resources.users import get_user
-from beerbox.application.api.resources.users import get_user_repository
-from beerbox.application.api.resources.users import get_users
-from beerbox.application.api.resources.users import post_users
-from beerbox.domain.users import User
-from beerbox.domain.users import UserRepository
+from apibox.application.api.components.user_request import UserRequest
+from apibox.application.api.resources.users import get_user
+from apibox.application.api.resources.users import get_user_repository
+from apibox.application.api.resources.users import get_users
+from apibox.application.api.resources.users import post_users
+from apibox.domain.users import User
+from apibox.domain.users import UserRepository
 from tests.factories import DomainUserFactory
 from tests.utils import AnyDatetimeString
 from tests.utils import AnyInstanceOf

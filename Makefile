@@ -5,7 +5,7 @@ SHELL := /bin/sh
 DOCKER ?= docker
 
 # docker image configuration
-IMAGE_NAME ?= beerbox-backend
+IMAGE_NAME ?= apibox
 IMAGE_TAG ?= dev
 
 # registry configuration
@@ -20,7 +20,7 @@ TESTED_PORT ?= 8000
 # local database configuration
 POSTGRES_USERNAME ?= admin
 POSTGRES_PASSWORD ?= admin
-POSTGRES_DATABASE ?= beerbox
+POSTGRES_DATABASE ?= apibox
 POSTGRES_HOST ?= localhost
 POSTGRES_PORT ?= 5432
 POSTGRES_NAME ?= postgres
@@ -31,7 +31,7 @@ init: ## initialise local environment
 
 .PHONY: serve
 serve: ## run local development server
-	@poetry run uvicorn beerbox.main:app --host 0.0.0.0 --port 8000 --reload
+	@poetry run uvicorn apibox.main:app --host 0.0.0.0 --port 8000 --reload
 
 .PHONY: lint
 lint: ## lint codebase
@@ -69,7 +69,7 @@ push: ## push docker image on registry
 .PHONY: run
 run:  ## run local server
 	@${DOCKER} run --rm --detach \
-		--name beerbox-backend \
+		--name apibox \
 		--network host \
 		--env POSTGRES_USERNAME=${POSTGRES_USERNAME}\
 		--env POSTGRES_PASSWORD=${POSTGRES_PASSWORD} \

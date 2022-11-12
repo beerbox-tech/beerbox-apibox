@@ -2,15 +2,15 @@
 created at: 2022/10/21
 license: MIT
 
-beerbox database integration tests
+apibox database integration tests
 """
 
 from alembic import command
 from alembic.util.exc import CommandError
 from sqlalchemy import select
 
-from beerbox.infrastructure.database.models import Contribution
-from beerbox.infrastructure.database.models import User
+from apibox.infrastructure.database.models import Contribution
+from apibox.infrastructure.database.models import User
 from tests.factories import DatabaseContributionFactory
 from tests.factories import DatabaseUserFactory
 

@@ -3,7 +3,7 @@ created by: thibault defeyter
 created at: 2022/10/21
 license: MIT
 
-beerbox component tests configuration
+apibox component tests configuration
 """
 
 import pytest
