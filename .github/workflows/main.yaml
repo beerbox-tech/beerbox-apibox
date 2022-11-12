@@ -103,8 +103,8 @@ jobs:
       TESTED_HOST: "localhost"
       TESTED_PORT: "8000"
     services:
-      beerbox:
-        image: "registry.defeyter.fr/beerbox-backend:latest"
+      apibox:
+        image: "registry.defeyter.fr/apibox:latest"
         credentials:
           username: "${{ secrets.REGISTRY_USERNAME }}"
           password: "${{ secrets.REGISTRY_PASSWORD }}"
@@ -159,8 +159,8 @@ jobs:
       TESTED_HOST: "localhost"
       TESTED_PORT: "8000"
     services:
-      beerbox:
-        image: "registry.defeyter.fr/beerbox-backend:latest"
+      apibox:
+        image: "registry.defeyter.fr/apibox:latest"
         credentials:
           username: "${{ secrets.REGISTRY_USERNAME }}"
           password: "${{ secrets.REGISTRY_PASSWORD }}"
