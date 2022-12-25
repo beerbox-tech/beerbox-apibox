@@ -10,7 +10,7 @@ jobs:
         id: "lint-commits"
         with:
           github_token: "${{ secrets.GITHUB_TOKEN }}"
-          regex: "(fix|feat|refacto)\\((core|users|contributions)\\(: [a-z]+"
+          regex: "(fix|feat|refacto)\\((core|users|contributions)\\): [a-z1-9\\.]+"
           format: "markdown"
       - name: "Remove labels after lint success"
         uses: "actions-ecosystem/action-remove-labels@v1"
