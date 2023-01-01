@@ -1466,7 +1466,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "27d54defb752950d0b527d68e4a047b33a294b467ccceeed2864a3e528af8035"
+content-hash = "179430656ce9b15c0268d3b0f8484373aec7df96ead09db9607895835980d450"
 
 [metadata.files]
 alembic = [
