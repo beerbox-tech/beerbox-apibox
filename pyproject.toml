@@ -5,6 +5,9 @@ description = "beerbox api backend"
 authors = ["Thibault DEFEYTER <defeyter.thibault@gmail.com>"]
 license = "MIT"
 
+[tool.poetry.scripts]
+apibox = "apibox.main:cli"
+
 [tool.poetry.dependencies]
 python = "^3.10"
 alembic = "1.8.1"
