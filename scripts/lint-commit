@@ -17,7 +17,7 @@ REGEXP = re.compile(rf"({'|'.join(TYPES)})\(({'|'.join(SCOPES)})\): [a-z1-9\.]+"
 
 def parse_args() -> Namespace:
     parser = argparse.ArgumentParser(
-        prog="lint-commit-message",
+        prog="lint-commit",
         description="Lint a commit message",
     )
     parser.add_argument("--message", action="store", dest="message", required=True)
