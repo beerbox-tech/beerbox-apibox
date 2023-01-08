@@ -8,6 +8,7 @@ apibox CLI application
 
 from click import Group
 
+from apibox.application.cli.commands.database import database
 from apibox.application.cli.commands.health import healthcheck
 
 
@@ -15,4 +16,5 @@ def create_cli() -> Group:
     """create a cli entrypoint"""
     cli = Group("apibox")
     cli.add_command(healthcheck)
+    cli.add_command(database)
     return cli
