@@ -90,15 +90,15 @@ database: ## run local database
 
 .PHONY: database-migrations
 database-migrations: ## make database migrations
-	@poetry run alembic -c migrations/alembic.ini revision --autogenerate
+	@poetry run apibox database revision --autogenerate
 
 .PHONY: database-upgrade
 database-upgrade: ## upgrade local database schema
-	@poetry run alembic -c migrations/alembic.ini upgrade head
+	@poetry run apibox database upgrade head
 
 .PHONY: database-downgrade
 database-downgrade: ## downgrade local database schema
-	@poetry run alembic -c migrations/alembic.ini downgrade -1
+	@poetry run apibox database downgrade -1
 
 .PHONY: help
 help: ## show this help
