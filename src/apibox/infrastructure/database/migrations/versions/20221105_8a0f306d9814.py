@@ -4,6 +4,7 @@ Revision ID: 8a0f306d9814
 Revises:
 Create Date: 2022-11-05 16:57:50.501268
 """
+# pylint: disable=no-member,invalid-name
 
 import sqlalchemy as sa
 from alembic import op
@@ -16,6 +17,7 @@ depends_on = None
 
 
 def upgrade():
+    """upgrade database schema to next version"""
     op.create_table(
         "users",
         sa.Column("id", sa.Integer(), nullable=False),
@@ -30,4 +32,5 @@ def upgrade():
 
 
 def downgrade():
+    """downgrade database schema to previous version"""
     op.drop_table("users")

@@ -11,7 +11,9 @@ from alembic import command
 from alembic.config import Config
 from alembic.util.exc import CommandError
 
-config = Config("migrations/alembic.ini")
+config = Config()
+config.set_main_option("script_location", "apibox:infrastructure:database:migrations")
+config.set_main_option("file_template", "%%(year)d%%(month).2d%%(day).2d_%%(rev)s")
 
 
 @click.group()

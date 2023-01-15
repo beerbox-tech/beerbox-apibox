@@ -7,11 +7,11 @@ apibox integration tests configuration
 """
 
 import pytest
-from alembic.config import Config
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
 
+from apibox.application.cli.commands.database import config
 from apibox.infrastructure.database.engine import get_engine
 from apibox.infrastructure.database.models import DatabaseModel
 from apibox.main import app
@@ -22,7 +22,7 @@ session = scoped_session(sessionmaker(bind=get_engine()))
 @pytest.fixture(name="config", scope="session")
 def fixture_config():
     """expose alembic config fixture"""
-    return Config("migrations/alembic.ini")
+    return config
 
 
 @pytest.fixture(name="engine", scope="session")
