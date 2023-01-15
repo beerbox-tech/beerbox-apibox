@@ -21,7 +21,6 @@ RUN groupadd -r --gid 1000 apibox && \
     useradd -r --uid 1000 --gid 1000 apibox
 
 COPY --from=builder /build/dist/ /tmp/
-COPY --from=builder /build/migrations/ /migrations/
 RUN pip install --no-cache-dir /tmp/*.whl && \
     rm -rf /tmp/*
 
