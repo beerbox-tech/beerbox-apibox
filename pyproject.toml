@@ -70,6 +70,21 @@ ignored-classes="scoped_session"
 mypy_path = "$MYPY_CONFIG_FILE_DIR/src"
 plugins = "sqlalchemy.ext.mypy.plugin"
 
+[tool.pylint.messages_control]
+max-line-length = 99
+disable = [
+    "too-few-public-methods",
+    "unnecessary-ellipsis",
+    "duplicate-code",
+    "unused-argument",
+]
+extension-pkg-allow-list = [
+    "pydantic",
+]
+
+[tool.pylint.typecheck]
+ignored-classes="scoped_session"
+
 [tool.coverage.report]
 exclude_lines = [
     "def __repr__",
