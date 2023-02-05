@@ -13,6 +13,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from starlette.exceptions import HTTPException
 
 from apibox.application.api.exception_handlers import exception_handler
+from apibox.application.api.resources import boxes
 from apibox.application.api.resources import contributions
 from apibox.application.api.resources import health
 from apibox.application.api.resources import users
@@ -23,7 +24,7 @@ def create_app() -> FastAPI:
     app = FastAPI(openapi_url="")
 
     # routers to expose endpoints
-    for resource in (health, users, contributions):
+    for resource in (health, users, contributions, boxes):
         app.include_router(resource.router)
 
     # exception handlers to manage errors

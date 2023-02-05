@@ -17,6 +17,8 @@ from starlette.requests import Request
 
 from apibox.application.api.components.error_response import ErrorResponse
 from apibox.application.api.response import APIResponse
+from apibox.domain.boxes import BoxAlreadyExist
+from apibox.domain.boxes import BoxDoesNotExist
 from apibox.domain.contributions import ContributionDoesNotExist
 from apibox.domain.contributions import ContributionUserDoesNotExist
 from apibox.domain.users import UserAlreadyExist
@@ -59,6 +61,16 @@ def _(_: ContributionDoesNotExist) -> int:
 @get_status_code_from.register
 def _(_: ContributionUserDoesNotExist) -> int:
     return status.HTTP_422_UNPROCESSABLE_ENTITY
+
+
+@get_status_code_from.register
+def _(_: BoxAlreadyExist) -> int:
+    return status.HTTP_409_CONFLICT
+
+
+@get_status_code_from.register
+def _(_: BoxDoesNotExist) -> int:
+    return status.HTTP_404_NOT_FOUND
 
 
 @singledispatch
@@ -105,6 +117,16 @@ def _(_: ContributionUserDoesNotExist) -> str:
     return "validation-error"
 
 
+@get_error_code_from.register
+def _(_: BoxAlreadyExist) -> str:
+    return "box-conflict"
+
+
+@get_error_code_from.register
+def _(_: BoxDoesNotExist) -> str:
+    return "box-not-found"
+
+
 @singledispatch
 def get_error_message_from(_) -> str:
     """get an error message from an exception and a request"""
@@ -146,6 +168,16 @@ def _(_: ContributionDoesNotExist) -> str:
 @get_error_message_from.register
 def _(_: ContributionUserDoesNotExist) -> str:
     return "error creating contribution"
+
+
+@get_error_message_from.register
+def _(_: BoxAlreadyExist) -> str:
+    return "a box with the same name already exist"
+
+
+@get_error_message_from.register
+def _(_: BoxDoesNotExist) -> str:
+    return "the requested box does not exist"
 
 
 @singledispatch
