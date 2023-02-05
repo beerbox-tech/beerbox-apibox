@@ -7,10 +7,12 @@ apibox database models
 """
 
 from apibox.infrastructure.database.models.base import DatabaseModel
+from apibox.infrastructure.database.models.box import Box
 from apibox.infrastructure.database.models.contribution import Contribution
 from apibox.infrastructure.database.models.user import User
 
 __all__ = [
+    "Box",
     "Contribution",
     "DatabaseModel",
     "User",

@@ -66,6 +66,31 @@ components:
           type: "string"
         userId:
           type: "string"
+    BoxRequest:
+      type: "object"
+      required:
+        - "name"
+      properties:
+        name:
+          type: "string"
+    BoxResponse:
+      type: "object"
+      required:
+        - "createdAt"
+        - "modifiedAt"
+        - "publicId"
+        - "name"
+      properties:
+        createdAt:
+          type: "string"
+          format: "date-time"
+        modifiedAt:
+          type: "string"
+          format: "date-time"
+        publicID:
+          type: "string"
+        name:
+          type: "string"
     HealthCheck:
       type: "object"
       required:
@@ -152,7 +177,7 @@ paths:
               $ref: "#/components/schemas/UserRequest"
       responses:
         "201":
-          description: "CREATED"
+          description: "Created"
           content:
             application/json:
               schema:
@@ -253,6 +278,76 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ContributionResponse"
+        "404":
+          description: "Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /boxes:
+    get:
+      summary: "get boxes"
+      tags:
+        - "boxes"
+      description: "Get the list of boxes"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/BoxResponse"
+    post:
+      summary: "create box"
+      tags:
+        - "boxes"
+      description: "Create a new box"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BoxRequest"
+      responses:
+        "201":
+          description: "Created"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BoxResponse"
+        "422":
+          description: "Unprocessable Entity"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: "Conflict"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /boxes/{publicId}:
+    get:
+      summary: "get single box"
+      tags:
+        - "boxes"
+      description: "Get a single box"
+      parameters:
+        - in: "path"
+          name: "publicId"
+          required: true
+          schema:
+            type: "string"
+          description: "public id of the box to get"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BoxResponse"
         "404":
           description: "Not Found"
           content:

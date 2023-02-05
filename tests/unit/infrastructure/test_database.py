@@ -22,6 +22,8 @@ from sqlalchemy.orm import Session
 
 from apibox.application.health import Check
 from apibox.application.health import Status
+from apibox.domain.boxes import BoxAlreadyExist
+from apibox.domain.boxes import BoxDoesNotExist
 from apibox.domain.contributions import ContributionDoesNotExist
 from apibox.domain.contributions import ContributionUserDoesNotExist
 from apibox.domain.users import UserAlreadyExist
@@ -30,11 +32,14 @@ from apibox.infrastructure.database.engine import get_engine
 from apibox.infrastructure.database.health import DatabaseReadiness
 from apibox.infrastructure.database.models import DatabaseModel
 from apibox.infrastructure.database.repositories import DatabaseContributionRepository
+from apibox.infrastructure.database.repositories.box import DatabaseBoxRepository
 from apibox.infrastructure.database.repositories.user import DatabaseUserRepository
 from apibox.infrastructure.database.session import get_session
 from apibox.infrastructure.database.session import open_session
+from tests.factories import DatabaseBoxFactory
 from tests.factories import DatabaseContributionFactory
 from tests.factories import DatabaseUserFactory
+from tests.factories import DomainBoxFactory
 from tests.factories import DomainContributionFactory
 from tests.factories import DomainUserFactory
 
@@ -322,5 +327,95 @@ def test_contribution_repository__add_contribution_error():
 
     with pytest.raises(SQLAlchemyError):
         repository.add_contribution(contribution)
+
+    session.rollback.assert_called_once()
+
+
+def test_box_repository__get_boxes():
+    """assert box database repository performs the right queries"""
+    box = DatabaseBoxFactory.build()
+    session = mock_session(scalars=[box])
+    repository = DatabaseBoxRepository(session)
+
+    results = repository.get_boxes()
+    query = get_query(session)
+
+    assert len(results) == 1
+    assert results[0].created_at == box.created_at
+    assert results[0].modified_at == box.modified_at
+    assert results[0].public_id == box.public_id
+    assert results[0].name == box.name
+    assert query == (
+        "SELECT boxes.id, boxes.public_id, boxes.created_at, boxes.modified_at, boxes.name \n"
+        "FROM boxes"
+    )
+
+
+def test_box_repository__get_box():
+    """assert box database repository performs the right queries"""
+    box = DatabaseBoxFactory.build()
+    session = mock_session(scalar_one=box)
+    repository = DatabaseBoxRepository(session)
+
+    result = repository.get_box(box.public_id)
+    query = get_query(session)
+
+    assert result.created_at == box.created_at
+    assert result.modified_at == box.modified_at
+    assert result.public_id == box.public_id
+    assert result.name == box.name
+    assert query == (
+        "SELECT boxes.id, boxes.public_id, boxes.created_at, boxes.modified_at, boxes.name \n"
+        "FROM boxes \n"
+        "WHERE boxes.public_id = :public_id_1"
+    )
+
+
+def test_box_repository__get_box__error():
+    """assert box database repository performs the right queries"""
+    session = mock_session(scalar_one=ValueError("boom"))
+    repository = DatabaseBoxRepository(session)
+
+    with pytest.raises(BoxDoesNotExist):
+        repository.get_box("public-id")
+
+    session.rollback.assert_called_once()
+
+
+def test_box_repository__add_box():
+    """assert box database repository performs the right queries"""
+    box = DomainBoxFactory.build()
+    session = mock_session()
+    repository = DatabaseBoxRepository(session)
+
+    repository.add_box(box)
+    query = get_query(session)
+
+    assert query == (
+        "INSERT INTO boxes (public_id, created_at, modified_at, name) "
+        "VALUES (:public_id, :created_at, :modified_at, :name)"
+    )
+
+
+def test_box_repository__add_box__integrity_error():
+    """assert box database repository performs the right queries"""
+    box = DomainBoxFactory.build()
+    session = mock_session(raise_on_commit=IntegrityError(orig=None, params=None, statement=None))
+    repository = DatabaseBoxRepository(session)
+
+    with pytest.raises(BoxAlreadyExist):
+        repository.add_box(box)
+
+    session.rollback.assert_called_once()
+
+
+def test_box_repository__add_box_error():
+    """assert box database repository performs the right queries"""
+    box = DomainBoxFactory.build()
+    session = mock_session(raise_on_commit=SQLAlchemyError())
+    repository = DatabaseBoxRepository(session)
+
+    with pytest.raises(SQLAlchemyError):
+        repository.add_box(box)
 
     session.rollback.assert_called_once()

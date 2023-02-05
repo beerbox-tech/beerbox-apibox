@@ -11,7 +11,7 @@ from argparse import Namespace
 from lib import print_with_state  # type: ignore
 
 TYPES = ("fix", "feat", "refacto")
-SCOPES = ("core", "users", "contributions")
+SCOPES = ("core", "users", "contributions", "boxes")
 REGEXP = re.compile(rf"({'|'.join(TYPES)})\(({'|'.join(SCOPES)})\): [a-z1-9\.]+")
 
 
