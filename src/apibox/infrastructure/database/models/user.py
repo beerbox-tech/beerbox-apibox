@@ -9,13 +9,17 @@ apibox users database model
 from __future__ import annotations
 
 from datetime import datetime
+from typing import TYPE_CHECKING
 
-from sqlalchemy import Column
-from sqlalchemy import DateTime
-from sqlalchemy import Integer
 from sqlalchemy import String
+from sqlalchemy.orm import Mapped
+from sqlalchemy.orm import mapped_column
+from sqlalchemy.orm import relationship
 
 from apibox.infrastructure.database.models.base import DatabaseModel
+
+if TYPE_CHECKING:
+    from apibox.infrastructure.database.models.contribution import Contribution
 
 
 class User(DatabaseModel):
@@ -24,15 +28,17 @@ class User(DatabaseModel):
     __tablename__ = "users"
 
     # private and public ids
-    id: int = Column(Integer, primary_key=True)
-    public_id: str = Column(String(16), nullable=False, unique=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    public_id: Mapped[str] = mapped_column(unique=True)
 
     # control dates
-    created_at: datetime = Column(DateTime(timezone=True), nullable=False)
-    modified_at: datetime = Column(DateTime(timezone=True), nullable=False)
+    created_at: Mapped[datetime]
+    modified_at: Mapped[datetime]
 
     # data columns
-    username: str = Column(String(128), nullable=False, unique=True)
+    username: Mapped[str] = mapped_column(String(128), unique=True)
+
+    contributions: Mapped[list["Contribution"]] = relationship(back_populates="user")
 
     def __repr__(self) -> str:
         return f"<User #{self.id}>"

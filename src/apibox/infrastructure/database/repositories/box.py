@@ -48,7 +48,7 @@ class DatabaseBoxRepository(BoxRepository):
         return self._transform(box)
 
     def add_box(self, box: DomainBox) -> None:
-        query = insert(DatabaseBox).values(asdict(box))
+        query = insert(DatabaseBox).values(asdict(box))  # type: ignore
         try:
             self.session.execute(query)
             self.session.commit()

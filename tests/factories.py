@@ -33,6 +33,8 @@ class DomainUserFactory(factory.Factory):
     username = factory.Faker("user_name")  # type: ignore
 
     class Meta:
+        """Meta class"""
+
         model = DomainUser
 
 
@@ -49,6 +51,8 @@ class DatabaseUserFactory(factory.alchemy.SQLAlchemyModelFactory):
     username = factory.Faker("user_name")  # type: ignore
 
     class Meta:
+        """Meta class"""
+
         model = DatabaseUser
         sqlalchemy_session = session
         sqlalchemy_session_persistence = "commit"
@@ -73,6 +77,8 @@ class DomainContributionFactory(factory.Factory):
     )  # type: ignore
 
     class Meta:
+        """Meta class"""
+
         model = DomainContribution
 
 
@@ -92,6 +98,8 @@ class DatabaseContributionFactory(factory.alchemy.SQLAlchemyModelFactory):
     user = factory.SubFactory(DatabaseUserFactory)  # type: ignore
 
     class Meta:
+        """Meta class"""
+
         model = DatabaseContribution
         sqlalchemy_session = session
         sqlalchemy_session_persistence = "commit"
@@ -110,6 +118,8 @@ class DomainBoxFactory(factory.Factory):
     name = factory.Faker("word")  # type: ignore
 
     class Meta:
+        """Meta class"""
+
         model = DomainBox
 
 
@@ -126,6 +136,8 @@ class DatabaseBoxFactory(factory.alchemy.SQLAlchemyModelFactory):
     name = factory.Faker("word")  # type: ignore
 
     class Meta:
+        """Meta class"""
+
         model = DatabaseBox
         sqlalchemy_session = session
         sqlalchemy_session_persistence = "commit"

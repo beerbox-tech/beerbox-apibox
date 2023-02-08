@@ -8,10 +8,11 @@ apibox integration tests configuration
 
 import pytest
 from fastapi.testclient import TestClient
+from sqlalchemy import text
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
 
-from apibox.application.cli.commands.database import config
+from apibox.application.cli.commands.database import config as database_config
 from apibox.infrastructure.database.engine import get_engine
 from apibox.infrastructure.database.models import DatabaseModel
 from apibox.main import app
@@ -22,7 +23,7 @@ session = scoped_session(sessionmaker(bind=get_engine()))
 @pytest.fixture(name="config", scope="session")
 def fixture_config():
     """expose alembic config fixture"""
-    return config
+    return database_config
 
 
 @pytest.fixture(name="engine", scope="session")
@@ -35,13 +36,13 @@ def fixture_engine():
 def fixture_clean_session(engine, config):
     """expose a clean database session fixture"""
     DatabaseModel.metadata.drop_all(engine)
-    session.execute("drop table if exists alembic_version")
+    session.execute(text("drop table if exists alembic_version"))
     session.commit()
 
     yield session
 
     DatabaseModel.metadata.drop_all(engine)
-    session.execute("drop table if exists alembic_version")
+    session.execute(text("drop table if exists alembic_version"))
     session.commit()
 
 

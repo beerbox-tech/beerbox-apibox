@@ -9,16 +9,18 @@ apibox users database model
 from __future__ import annotations
 
 from datetime import datetime
+from typing import TYPE_CHECKING
 
-from sqlalchemy import Column
-from sqlalchemy import DateTime
 from sqlalchemy import ForeignKey
-from sqlalchemy import Integer
 from sqlalchemy import String
+from sqlalchemy.orm import Mapped
+from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import relationship
 
 from apibox.infrastructure.database.models.base import DatabaseModel
-from apibox.infrastructure.database.models.user import User
+
+if TYPE_CHECKING:
+    from apibox.infrastructure.database.models.user import User
 
 
 class Contribution(DatabaseModel):
@@ -27,20 +29,20 @@ class Contribution(DatabaseModel):
     __tablename__ = "contributions"
 
     # private and public ids
-    id: int = Column(Integer, primary_key=True)
-    public_id: str = Column(String(16), nullable=False, unique=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    public_id: Mapped[str] = mapped_column(String(16), unique=True)
 
     # control dates
-    created_at: datetime = Column(DateTime(timezone=True), nullable=False)
-    modified_at: datetime = Column(DateTime(timezone=True), nullable=False)
+    created_at: Mapped[datetime]
+    modified_at: Mapped[datetime]
 
     # data columns
-    amount: int = Column(Integer, nullable=False)
-    description: str = Column(String(128), nullable=False)
-    user_id: int = Column(Integer, ForeignKey("users.id"), nullable=False)
+    amount: Mapped[int]
+    description: Mapped[str] = mapped_column(String(128))
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
 
     # relationships
-    user: User = relationship(User)
+    user: Mapped["User"] = relationship(back_populates="contributions")
 
     def __repr__(self) -> str:
         return f"<Contribution #{self.id}>"

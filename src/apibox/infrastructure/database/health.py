@@ -26,11 +26,13 @@ class DatabaseReadiness(HealthIndicator):
 
     def get_check(self) -> Check:
         try:
-            time = self.session.execute(select(func.now())).scalar()
+            time = self.session.execute(
+                select(func.now())  # pylint: disable=not-callable
+            ).scalar()
             status = Status.PASS
             value = "true"
         except OperationalError:
-            time = datetime.now()
+            time = datetime.now()  # type: ignore
             status = Status.FAIL
             value = "false"
         return Check(

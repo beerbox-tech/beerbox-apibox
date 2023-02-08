@@ -8,6 +8,7 @@ apibox database integration tests
 from alembic import command
 from alembic.util.exc import CommandError
 from sqlalchemy import select
+from sqlalchemy import text
 
 from apibox.infrastructure.database.models import Contribution
 from apibox.infrastructure.database.models import User
@@ -18,7 +19,7 @@ from tests.factories import DatabaseUserFactory
 def test_migrations(config, clean_session):
     """test migrations up and down"""
     command.upgrade(config=config, revision="head", sql=False, tag=None)
-    result = clean_session.execute("select count(*) from alembic_version").scalar()
+    result = clean_session.execute(text("select count(*) from alembic_version")).scalar()
     assert result == 1
 
     while True:
@@ -26,7 +27,7 @@ def test_migrations(config, clean_session):
             command.downgrade(config=config, revision="-1", sql=False, tag=None)
         except CommandError:
             break
-    result = clean_session.execute("select count(*) from alembic_version").scalar()
+    result = clean_session.execute(text("select count(*) from alembic_version")).scalar()
     assert result == 0
 
 

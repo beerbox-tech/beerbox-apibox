@@ -48,7 +48,7 @@ class DatabaseUserRepository(UserRepository):
         return self._transform(user)
 
     def add_user(self, user: DomainUser) -> None:
-        query = insert(DatabaseUser).values(asdict(user))
+        query = insert(DatabaseUser).values(asdict(user))  # type: ignore
         try:
             self.session.execute(query)
             self.session.commit()

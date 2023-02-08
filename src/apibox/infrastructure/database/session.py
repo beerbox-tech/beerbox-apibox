@@ -7,7 +7,7 @@ apibox database session manamagement
 """
 
 from fastapi import Depends
-from sqlalchemy.future.engine import Engine
+from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session
 
 from apibox.infrastructure.database.engine import get_engine
@@ -15,7 +15,7 @@ from apibox.infrastructure.database.engine import get_engine
 
 def open_session(engine: Engine) -> Session:
     """Open a database session, to be used as a context manager"""
-    return Session(engine, future=True)
+    return Session(engine)
 
 
 def get_session(engine: Engine = Depends(get_engine)):

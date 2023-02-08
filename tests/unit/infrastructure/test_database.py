@@ -14,10 +14,10 @@ from unittest.mock import patch
 import pytest
 from sqlalchemy import Column
 from sqlalchemy import Integer
+from sqlalchemy.engine import Engine
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.exc import OperationalError
 from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy.future.engine import Engine
 from sqlalchemy.orm import Session
 
 from apibox.application.health import Check
@@ -77,23 +77,22 @@ def get_args(session: Mock):
 
 
 def test_get_engine():
-    """make sure engine returns a future engine"""
+    """make sure engine returns an engine"""
     engine = get_engine()
     assert isinstance(engine, Engine)
 
 
 def test_open_session():
-    """make sure open sessio returns a future session"""
+    """make sure open session returns a session"""
     with open_session(engine=get_engine()) as session:
         assert isinstance(session, Session)
-        assert session.future
+        assert session
 
 
 def test_get_session():
-    """make sure get session returns a future session"""
+    """make sure get session returns a session"""
     for session in get_session():
         assert isinstance(session, Session)
-        assert session.future
 
 
 def test_database_model():

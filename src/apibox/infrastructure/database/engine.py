@@ -7,11 +7,11 @@ apibox database engine
 """
 
 from sqlalchemy import create_engine
-from sqlalchemy.future.engine import Engine
+from sqlalchemy.engine import Engine
 
 from apibox import config
 
-engine = create_engine(config.POSTGRES_URL, echo=config.POSTGRES_ECHO, future=True)
+engine = create_engine(config.POSTGRES_URL, echo=config.POSTGRES_ECHO)
 
 
 def get_engine() -> Engine:
