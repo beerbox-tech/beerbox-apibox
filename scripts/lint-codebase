@@ -13,7 +13,7 @@ from lib import run_with_state  # type: ignore
 CHECKS = (
     ("format python using black", ("poetry", "run", "black", "./")),
     ("format python using isort", ("poetry", "run", "isort", "./")),
-    ("check python using flake8", ("poetry", "run", "flake8", "./")),
+    ("check python using flake8", ("poetry", "run", "flake8", "scripts", "src", "tests")),
     ("check python using bandit", ("poetry", "run", "bandit", "./")),
     ("check python using mypy", ("poetry", "run", "mypy", "scripts", "src")),
     ("check python using pylint", ("poetry", "run", "pylint", "scripts", "src")),
